@@ -1,0 +1,14 @@
+1. splash screen activity
+2. main/search activity
+    - update button
+    - search
+        - by vendor
+        - by model
+3. detail activity
+4. db class
+5. util class
+6. model class
+    - Device
+7. ad
+    - banner
+    - interstitial
