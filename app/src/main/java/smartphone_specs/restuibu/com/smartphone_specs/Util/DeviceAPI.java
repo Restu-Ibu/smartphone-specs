@@ -29,10 +29,10 @@ public class DeviceAPI {
         Response<List<DeviceEntity>> response = null;
 
         try {
-            //response = api.getLatest(TOKEN, brand, 1).execute();
+            //response = api.getLatest(TOKEN, brand, 100).execute();
             response = api.getDevice(TOKEN, brand,null,null).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
         }
 //        response.body().forEach(
 //                device -> Toast.makeText(context, "First device: " + device.getDeviceName(), Toast.LENGTH_SHORT).show()

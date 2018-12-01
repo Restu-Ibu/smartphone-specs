@@ -19,14 +19,20 @@ import retrofit2.Response;
 import smartphone_specs.restuibu.com.smartphone_specs.R;
 import smartphone_specs.restuibu.com.smartphone_specs.Util.DeviceAPI;
 import smartphone_specs.restuibu.com.smartphone_specs.adapter.DeviceAdapter;
+import smartphone_specs.restuibu.com.smartphone_specs.adapter.ListDeviceAdapter;
 import smartphone_specs.restuibu.com.smartphone_specs.model.DeviceItem;
+import smartphone_specs.restuibu.com.smartphone_specs.model.ListDeviceItem;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText etFind;
     private Button bFind, bBack;
-    private ListView list;
+    public static ListView list;
+    public static ListDeviceAdapter adapter1;
+    public static DeviceAdapter adapter2;
+    public static int flag_adapter;
     private LinearLayout llSearch;
+    private ArrayList<ListDeviceItem> ListDeviceItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,40 +58,42 @@ public class MainActivity extends AppCompatActivity {
         bBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.setVisibility(View.GONE);
-                bBack.setVisibility(View.GONE);
-                llSearch.setVisibility(View.VISIBLE);
+                if(flag_adapter == 1){
+                    list.setVisibility(View.GONE);
+                    bBack.setVisibility(View.GONE);
+                    llSearch.setVisibility(View.VISIBLE);
+                } else if(flag_adapter == 2){
+                    list.setAdapter(adapter1);
+                    flag_adapter = 1;
+                }
             }
         });
 
         bFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list.setVisibility(View.VISIBLE);
-                bBack.setVisibility(View.VISIBLE);
-                llSearch.setVisibility(View.GONE);
-
-                // dev
-//                ArrayList<DeviceItem> deviceItems = new ArrayList<DeviceItem>();
-//                deviceItems.add(new DeviceItem("Device Name", "Samsung Galaxy J4"));
-//                deviceItems.add(new DeviceItem("Brand", "Samsung"));
-//                deviceItems.add(new DeviceItem("Resolution", "720 x 1480"));
-//                deviceItems.add(new DeviceItem("CPU", "Quad-core 1.4 GHz"));
-//                deviceItems.add(new DeviceItem("Camera", device.getCamera()));
-//
-//                DeviceAdapter adapter = new DeviceAdapter(MainActivity.this, deviceItems);
-//
-//                list.setAdapter(adapter);
-
                 DeviceAPI deviceAPI = new DeviceAPI(MainActivity.this);
                 Response<List<DeviceEntity>> response = deviceAPI.getResponse(etFind.getText().toString());
 
+
+
                 if (response != null) {
+
+                    list.setVisibility(View.VISIBLE);
+                    bBack.setVisibility(View.VISIBLE);
+                    llSearch.setVisibility(View.GONE);
+
+                    if(response.body().size() == 100){
+                        Toast.makeText(MainActivity.this, "We have limit from getting the results\nplease specify your search", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Found "+response.body().size()+" results", Toast.LENGTH_SHORT).show();
+                    }
+
+                    ListDeviceItems = new ArrayList<ListDeviceItem>();
+
                     for (int i = 0; i < response.body().size(); i++) {
                         DeviceEntity device = response.body().get(i);
-
                         ArrayList<DeviceItem> deviceItems = new ArrayList<DeviceItem>();
-
                         if (device.getDeviceName() != null)
                             deviceItems.add(new DeviceItem("DeviceName", device.getDeviceName()));
                         if (device.getBrand() != null)
@@ -217,15 +225,15 @@ public class MainActivity extends AppCompatActivity {
                         if (device.get_4g_bands() != null)
                             deviceItems.add(new DeviceItem("_4g_bands", device.get_4g_bands()));
 
+                        ListDeviceItems.add(new ListDeviceItem(device.getDeviceName(),deviceItems));
 
-                        DeviceAdapter adapter = new DeviceAdapter(MainActivity.this, deviceItems);
-
-                        list.setAdapter(adapter);
-
-                        //Toast.makeText(MainActivity.this, "First device: " + device.getDeviceName(), Toast.LENGTH_SHORT).show();
                     }
+
+                    adapter1 = new ListDeviceAdapter(MainActivity.this, ListDeviceItems);
+                    list.setAdapter(adapter1);
+                    flag_adapter = 1;
                 } else {
-                    Toast.makeText(MainActivity.this, "Cannot find", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "0 Result", Toast.LENGTH_SHORT).show();
                 }
             }
         });

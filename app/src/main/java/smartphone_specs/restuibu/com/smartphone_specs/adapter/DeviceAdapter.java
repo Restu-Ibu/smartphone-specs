@@ -2,14 +2,12 @@ package smartphone_specs.restuibu.com.smartphone_specs.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -56,7 +54,7 @@ public class DeviceAdapter extends BaseAdapter implements Filterable {
 		if (convertView == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			convertView = inflater
-					.inflate(R.layout.layout_list_device, parent, false);
+					.inflate(R.layout.layout_device_item, parent, false);
 
 			viewHolder = new ViewHolder();
 
