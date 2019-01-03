@@ -1,8 +1,10 @@
 package smartphone_specs.restuibu.com.smartphone_specs.activity;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,11 +15,18 @@ import android.widget.Toast;
 import com.aafanasev.fonoapi.DeviceEntity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import butterknife.ButterKnife;
 import retrofit2.Response;
 import smartphone_specs.restuibu.com.smartphone_specs.R;
-import smartphone_specs.restuibu.com.smartphone_specs.Util.DeviceAPI;
+import smartphone_specs.restuibu.com.smartphone_specs.util.MyAlert;
+import smartphone_specs.restuibu.com.smartphone_specs.util_billing.DeviceAPI;
+import smartphone_specs.restuibu.com.smartphone_specs.util_billing.IabHelper;
+import smartphone_specs.restuibu.com.smartphone_specs.util_billing.IabResult;
+import smartphone_specs.restuibu.com.smartphone_specs.util_billing.Inventory;
+import smartphone_specs.restuibu.com.smartphone_specs.util_billing.Purchase;
 import smartphone_specs.restuibu.com.smartphone_specs.adapter.DeviceAdapter;
 import smartphone_specs.restuibu.com.smartphone_specs.adapter.ListDeviceAdapter;
 import smartphone_specs.restuibu.com.smartphone_specs.model.DeviceItem;
@@ -26,13 +35,14 @@ import smartphone_specs.restuibu.com.smartphone_specs.model.ListDeviceItem;
 public class MainActivity extends AppCompatActivity {
 
     private EditText etFind;
-    private Button bFind, bBack;
+    private Button bFind, bBack, bBuy;
     public static ListView list;
     public static ListDeviceAdapter adapter1;
     public static DeviceAdapter adapter2;
     public static int flag_adapter;
     private LinearLayout llSearch;
     private ArrayList<ListDeviceItem> ListDeviceItems;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +56,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
     }
+
+
 
     public void init() {
         etFind = (EditText) findViewById(R.id.editText1);
         bFind = (Button) findViewById(R.id.button1);
         bBack = (Button) findViewById(R.id.button2);
+        bBuy = (Button) findViewById(R.id.button3);
         list = (ListView) findViewById(R.id.listView1);
         llSearch = (LinearLayout) findViewById(R.id.linearLayout1);
+
+        bBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyAlert.insertPassword(MainActivity.this);
+            }
+        });
 
         bBack.setOnClickListener(new View.OnClickListener() {
             @Override

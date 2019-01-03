@@ -6,7 +6,7 @@ android {
         applicationId "smartphone_specs.restuibu.com.smartphone_specs"
         minSdkVersion 24
         targetSdkVersion 27
-        versionCode 1
+        versionCode 3
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -29,6 +29,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.android.billingclient:billing:1.0'
+    implementation 'com.jakewharton:butterknife:8.4.0'
 
     implementation 'com.aafanasev:fonoapi-rxjava:1.0'
     implementation 'com.aafanasev:fonoapi-retrofit:1.0'

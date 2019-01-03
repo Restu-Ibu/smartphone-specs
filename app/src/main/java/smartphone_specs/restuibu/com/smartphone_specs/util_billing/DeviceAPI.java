@@ -1,8 +1,7 @@
-package smartphone_specs.restuibu.com.smartphone_specs.Util;
+package smartphone_specs.restuibu.com.smartphone_specs.util_billing;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.aafanasev.fonoapi.DeviceEntity;
 import com.aafanasev.fonoapi.retrofit.FonoApiFactory;
@@ -10,7 +9,6 @@ import com.aafanasev.fonoapi.retrofit.FonoApiService;
 
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 public class DeviceAPI {
